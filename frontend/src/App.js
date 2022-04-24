@@ -66,7 +66,7 @@ const App = () => {
     <button className="button mint-button" onClick={royalMinter}>Mint NFT</button>
    )
    
-   const CONTRACT_ADDRESS = "0x68a34f3C74349Af7b43D3ac9Fa11427E061023b5"
+   const CONTRACT_ADDRESS = "0x52F385c520fC919C2B524C3499EB6Fdb07f001DD"
 
    const setupEventListener = async () => {
       try {
