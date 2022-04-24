@@ -8,7 +8,7 @@ import "hardhat/console.sol";
 
 import {Base64} from "./libs/Base64.sol";
 
-contract PasujemitoNFT is ERC721URIStorage {
+contract RoyalMinterNFT is ERC721URIStorage {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
@@ -40,8 +40,10 @@ contract PasujemitoNFT is ERC721URIStorage {
         "Pills"
     ];
 
+    event RoyalNftMinted(address sender, uint256 tokenId);
+
     constructor() ERC721("SquareNFT", "SQUARE") {
-        console.log("My first NFT contract!");
+        console.log("Initiating Royal Minter NFT!");
     }
 
     function getFirstWordFromArray(uint256 tokenId)
@@ -105,7 +107,7 @@ contract PasujemitoNFT is ERC721URIStorage {
                     abi.encodePacked(
                         '{"name": "',
                         nftTitle,
-                        '", "description":"A well worded collection of square NFTs!',
+                        '", "description":"A well worded collection of Royal Mint NFTs!',
                         '", "image": "data:image/svg+xml;base64,',
                         Base64.encode(bytes(finalSvg)),
                         '"}'
@@ -121,6 +123,8 @@ contract PasujemitoNFT is ERC721URIStorage {
         _safeMint(msg.sender, newItemId);
         _setTokenURI(newItemId, finalTokenUri);
         _tokenIds.increment();
+
+        emit RoyalNftMinted(msg.sender, newItemId);
 
         console.log(
             "An NFT w/ ID %s has been minted to: %s",

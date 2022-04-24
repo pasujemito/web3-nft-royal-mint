@@ -1,7 +1,7 @@
 
 const main = async () => {
 
-    const contractFactory = await hre.ethers.getContractFactory("PasujemitoNFT");
+    const contractFactory = await hre.ethers.getContractFactory("RoyalMinterNFT");
     const deployContract = await contractFactory.deploy();
     await deployContract.deployed()
 
