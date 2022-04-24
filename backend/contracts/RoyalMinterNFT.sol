@@ -11,6 +11,7 @@ import {Base64} from "./libs/Base64.sol";
 contract RoyalMinterNFT is ERC721URIStorage {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
+    uint256 _totalCount = 0;
 
     string baseSvg =
         "<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='xMinYMin meet' viewBox='0 0 350 350'><style>.base { fill: white; font-family: serif; font-size: 24px; }</style><rect width='100%' height='100%' fill='black' /><text x='50%' y='50%' class='base' dominant-baseline='middle' text-anchor='middle'>";
@@ -40,7 +41,7 @@ contract RoyalMinterNFT is ERC721URIStorage {
         "Pills"
     ];
 
-    event RoyalNftMinted(address sender, uint256 tokenId);
+    event RoyalNftMinted(address sender, uint256 tokenId, uint256 totalCount);
 
     constructor() ERC721("SquareNFT", "SQUARE") {
         console.log("Initiating Royal Minter NFT!");
@@ -123,13 +124,14 @@ contract RoyalMinterNFT is ERC721URIStorage {
         _safeMint(msg.sender, newItemId);
         _setTokenURI(newItemId, finalTokenUri);
         _tokenIds.increment();
-
-        emit RoyalNftMinted(msg.sender, newItemId);
+        _totalCount = newItemId;
 
         console.log(
             "An NFT w/ ID %s has been minted to: %s",
             newItemId,
             msg.sender
         );
+
+        emit RoyalNftMinted(msg.sender, newItemId, _totalCount);
     }
 }

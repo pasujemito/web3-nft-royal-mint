@@ -82,7 +82,7 @@ const App = () => {
           connectedContract.on("RoyalNftMinted", (from, tokenId, totalCount) => {
             console.log("Sender:",from)
             console.log("Current Royal NFT #", tokenId.toNumber())
-            console.Consolelog(`Currently minted ${totalCount} Royal NFTs`)
+            console.log(`Currently minted ${totalCount} Royal NFTs`)
             console.log(`Hey there! We've minted your NFT and sent it to your wallet. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: https://testnets.opensea.io/assets/${CONTRACT_ADDRESS}/${tokenId.toNumber()}`)
           })
 

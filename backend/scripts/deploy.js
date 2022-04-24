@@ -7,26 +7,10 @@ const main = async () => {
     await deployContract.deployed()
     console.log("Contract deployed to:", deployContract.address)
 
-    let transaction;
-    transaction = await deployContract.createNFT();
-    await transaction.wait();
-    console.log("Minted NFT #1")
-
-    transaction = await deployContract.createNFT();
-    await transaction.wait();
-    console.log("Minted NFT #2")
-
-    transaction = await deployContract.createNFT();
-    await transaction.wait();
-    console.log("Minted NFT #3")
-
-    transaction = await deployContract.createNFT();
-    await transaction.wait();
-    console.log("Minted NFT #4")
-
-    transaction = await deployContract.createNFT();
-    await transaction.wait();
-    console.log("Minted NFT #5")
+    // let transaction;
+    // transaction = await deployContract.createNFT();
+    // await transaction.wait();
+    // console.log("New Royal NFT #1 minted.")
 
 }
 
@@ -34,27 +18,29 @@ const copyArtifacts = async () => {
     const backend_dir = path.resolve(__dirname, '..');
     const frontend_dir = path.resolve(__dirname, '../..');
 
-    let src = backend_dir + "/artifacts/contracts"
+    const source = backend_dir + "/artifacts/contracts"
     const dest = frontend_dir + "/frontend/src/utils"
 
-    const exists = fs.existsSync(src);
-    const stats = exists && fs.statSync(src);
-    const isDirectory = exists && stats.isDirectory();
+    !fs.existsSync(dest) && fs.mkdirSync(dest);
 
-    if (isDirectory) {
-      !fs.existsSync(dest) && fs.mkdirSync(dest);
-      fs.readdirSync(src).forEach(folder => {
-        src = src + '/' + folder
-        fs.readdirSync(src).forEach(file => {
-            !file.includes('dbg') && fs.copyFileSync(
-                src + '/'+ file, 
-                dest + '/'+ file
-            )
-        })
+    const getFilesRecursively = (source) => {
+        const filesInDirectory = fs.readdirSync(source);
+        for (const file of filesInDirectory) {
+          const absolute = path.join(source, file);
+          if (fs.statSync(absolute).isDirectory()) {
+              getFilesRecursively(absolute);
+          } else {
 
-      });
-    }
-    console.log("Frontend ABI updated: ", deployer.address);
+              if (!file.includes('dbg')) {
+                fs.copyFileSync(
+                    absolute, 
+                    dest + '/'+ file
+                )
+              }
+          }
+        }
+      };
+    getFilesRecursively(source)
 
 }
 
